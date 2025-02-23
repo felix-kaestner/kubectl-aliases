@@ -28,24 +28,17 @@ except NameError:
 
 def main():
     # (alias, full, allow_when_oneof, incompatible_with)
-    cmds = [('k', 'kubectl', None, None)]
-
-    globs = [('sys', '--namespace=kube-system', None, None)]
+    cmds = [('k', 'k', None, None)]
 
     ops = [
-        ('a', 'apply --recursive -f', None, None),
-        ('ak', 'apply -k', None, ['sys']),
-        ('k', 'kustomize', None, ['sys']),
-        ('ex', 'exec -i -t', None, None),
-        ('lo', 'logs -f', None, None),
-        ('lop', 'logs -f -p', None, None),
-        ('p', 'proxy', None, ['sys']),
-        ('pf', 'port-forward', None, ['sys']),
         ('g', 'get', None, None),
         ('d', 'describe', None, None),
+        ('a', 'apply -f', None, None),
+        ('ex', 'exec -i -t', None, None),
+        ('lo', 'logs -f', None, None),
         ('rm', 'delete', None, None),
         ('run', 'run --rm --restart=Never --image-pull-policy=IfNotPresent -i -t', None, None),
-        ]
+    ]
 
     res = [
         ('po', 'pods', ['g', 'd', 'rm'], None),
@@ -55,37 +48,33 @@ def main():
         ('ing', 'ingress', ['g', 'd', 'rm'], None),
         ('cm', 'configmap', ['g', 'd', 'rm'], None),
         ('sec', 'secret', ['g', 'd', 'rm'], None),
-        ('no', 'nodes', ['g', 'd'], ['sys']),
-        ('ns', 'namespaces', ['g', 'd', 'rm'], ['sys']),
-        ]
-    res_types = [r[0] for r in res]
+        ('no', 'nodes', ['g', 'd'], None),
+        ('ns', 'namespaces', ['g', 'd', 'rm'], None),
+    ]
 
     args = [
-        ('oyaml', '-o=yaml', ['g'], ['owide', 'ojson', 'sl']),
         ('owide', '-o=wide', ['g'], ['oyaml', 'ojson']),
+        ('oyaml', '-o=yaml', ['g'], ['owide', 'ojson', 'sl']),
         ('ojson', '-o=json', ['g'], ['owide', 'oyaml', 'sl']),
-        ('all', '--all-namespaces', ['g', 'd'], ['rm', 'f', 'no', 'ns', 'sys']),
-        ('sl', '--show-labels', ['g'], ['oyaml', 'ojson'], None),
-        ('all', '--all', ['rm'], None), # caution: reusing the alias
+        ('all', '--all-namespaces', ['g', 'd'], ['rm', 'no', 'ns']),
+        ('sl', '--show-labels', ['g'], ['oyaml', 'ojson']),
         ('w', '--watch', ['g'], ['oyaml', 'ojson', 'owide']),
-        ]
+    ]
 
     # these accept a value, so they need to be at the end and
     # mutually exclusive within each other.
-    positional_args = [('f', '--recursive -f', ['g', 'd', 'rm'], res_types + ['all'
-                       , 'l', 'sys']), ('l', '-l', ['g', 'd', 'rm'], ['f',
-                       'all']), ('n', '--namespace', ['g', 'd', 'rm',
-                       'lo', 'ex', 'pf'], ['ns', 'no', 'sys', 'all'])]
+    positional_args = [
+        ('n', '--namespace', ['g', 'd', 'ex', 'lo', 'rm'], ['ns', 'no', 'all'])
+    ]
 
     # [(part, optional, take_exactly_one)]
     parts = [
         (cmds, False, True),
-        (globs, True, False),
         (ops, True, True),
         (res, True, True),
         (args, True, False),
         (positional_args, True, True),
-        ]
+    ]
 
     shellFormatting = {
         "bash": "alias {}='{}'",
@@ -110,7 +99,7 @@ def main():
 
     seen_aliases = set()
 
-    for cmd in out:
+    for cmd in out[1:]: # alias of 'kubectl' is covered by fish function
         alias = ''.join([a[0] for a in cmd])
         command = ' '.join([a[1] for a in cmd])
 
@@ -127,9 +116,6 @@ def gen(parts):
     for (items, optional, take_exactly_one) in parts:
         orig = list(out)
         combos = []
-
-        if optional and take_exactly_one:
-            combos = combos.append([])
 
         if take_exactly_one:
             combos = combinations(items, 1, include_0=optional)
