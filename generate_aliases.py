@@ -35,8 +35,8 @@ def main():
         ('t', 'tree', None, None),
         ('d', 'describe', None, None),
         ('a', 'apply -f', None, None),
-        ('ex', 'exec -i -t', None, None),
-        ('lo', 'logs -f', None, None),
+        ('x', 'exec -i -t', None, None),
+        ('l', 'logs -f', None, None),
         ('rm', 'delete', None, None),
         ('run', 'run --rm --restart=Never --image-pull-policy=IfNotPresent -i -t', None, None),
     ]
@@ -65,7 +65,7 @@ def main():
     # these accept a value, so they need to be at the end and
     # mutually exclusive within each other.
     positional_args = [
-        ('n', '--namespace', ['g', 't', 'd', 'ex', 'lo', 'rm'], ['ns', 'no', 'all'])
+        ('n', '--namespace', ['g', 't', 'd', 'x', 'l', 'rm'], ['ns', 'no', 'all'])
     ]
 
     # [(part, optional, take_exactly_one)]
