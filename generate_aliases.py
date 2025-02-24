@@ -32,6 +32,7 @@ def main():
 
     ops = [
         ('g', 'get', None, None),
+        ('t', 'tree', None, None),
         ('d', 'describe', None, None),
         ('a', 'apply -f', None, None),
         ('ex', 'exec -i -t', None, None),
@@ -42,8 +43,8 @@ def main():
 
     res = [
         ('po', 'pods', ['g', 'd', 'rm'], None),
-        ('dep', 'deployment', ['g', 'd', 'rm'], None),
-        ('sts', 'statefulset', ['g', 'd', 'rm'], None),
+        ('dep', 'deployment', ['g', 't', 'd', 'rm'], None),
+        ('sts', 'statefulset', ['g', 't', 'd', 'rm'], None),
         ('svc', 'service', ['g', 'd', 'rm'], None),
         ('ing', 'ingress', ['g', 'd', 'rm'], None),
         ('cm', 'configmap', ['g', 'd', 'rm'], None),
@@ -64,7 +65,7 @@ def main():
     # these accept a value, so they need to be at the end and
     # mutually exclusive within each other.
     positional_args = [
-        ('n', '--namespace', ['g', 'd', 'ex', 'lo', 'rm'], ['ns', 'no', 'all'])
+        ('n', '--namespace', ['g', 't', 'd', 'ex', 'lo', 'rm'], ['ns', 'no', 'all'])
     ]
 
     # [(part, optional, take_exactly_one)]
