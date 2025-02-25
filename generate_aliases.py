@@ -38,13 +38,14 @@ def main():
         ('x', 'exec -i -t', None, None),
         ('l', 'logs -f', None, None),
         ('rm', 'delete', None, None),
+        ('rr', 'rollout restart', None, None),
         ('run', 'run --rm --restart=Never --image-pull-policy=IfNotPresent -i -t', None, None),
     ]
 
     res = [
         ('po', 'pods', ['g', 'd', 'rm'], None),
-        ('dep', 'deployment', ['g', 't', 'd', 'rm'], None),
-        ('sts', 'statefulset', ['g', 't', 'd', 'rm'], None),
+        ('dep', 'deployment', ['g', 't', 'd', 'rm', 'rr'], None),
+        ('sts', 'statefulset', ['g', 't', 'd', 'rm', 'rr'], None),
         ('svc', 'service', ['g', 'd', 'rm'], None),
         ('ing', 'ingress', ['g', 'd', 'rm'], None),
         ('cm', 'configmap', ['g', 'd', 'rm'], None),
