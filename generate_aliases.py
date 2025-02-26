@@ -36,7 +36,7 @@ def main():
         ('d', 'describe', None, None),
         ('a', 'apply -f', None, None),
         ('x', 'exec -i -t', None, None),
-        ('l', 'logs -f', None, None),
+        ('lo', 'logs -f', None, None),
         ('rm', 'delete', None, None),
         ('rr', 'rollout restart', None, None),
         ('run', 'run --rm --restart=Never --image-pull-policy=IfNotPresent -i -t', None, None),
