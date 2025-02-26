@@ -66,6 +66,7 @@ def main():
     # these accept a value, so they need to be at the end and
     # mutually exclusive within each other.
     positional_args = [
+        ('l', '-l', ['g', 'd', 'l', 'rm', 'rr'], None),
         ('n', '--namespace', ['g', 't', 'd', 'x', 'l', 'rm'], ['ns', 'no', 'all'])
     ]
 
