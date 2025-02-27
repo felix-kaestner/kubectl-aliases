@@ -37,6 +37,7 @@ def main():
         ('d', 'describe', None, None),
         ('a', 'apply -f', None, None),
         ('x', 'exec -i -t', None, None),
+        ('co', 'cond', None, None),
         ('lo', 'logs -f', None, None),
         ('rm', 'delete', None, None),
         ('rr', 'rollout restart', None, None),
@@ -44,14 +45,14 @@ def main():
     ]
 
     res = [
-        ('po', 'pods', ['g', 'd', 'e', 'rm'], None),
-        ('dep', 'deployment', ['g', 't', 'd', 'e', 'rm', 'rr'], None),
-        ('sts', 'statefulset', ['g', 't', 'd', 'e', 'rm', 'rr'], None),
+        ('po', 'pods', ['g', 'd', 'e', 'co', 'rm'], None),
+        ('dep', 'deployment', ['g', 't', 'd', 'e', 'co', 'rm', 'rr'], None),
+        ('sts', 'statefulset', ['g', 't', 'd', 'e', 'co', 'rm', 'rr'], None),
         ('svc', 'service', ['g', 'd', 'e', 'rm'], None),
         ('ing', 'ingress', ['g', 'd', 'e', 'rm'], None),
         ('cm', 'configmap', ['g', 'd', 'e', 'rm'], None),
         ('sec', 'secret', ['g', 'd', 'e' 'rm'], None),
-        ('no', 'nodes', ['g', 'd', 'e'], None),
+        ('no', 'nodes', ['g', 'd', 'e', 'co'], None),
         ('ns', 'namespaces', ['g', 'd', 'e', 'rm'], None),
     ]
 
@@ -67,8 +68,8 @@ def main():
     # these accept a value, so they need to be at the end and
     # mutually exclusive within each other.
     positional_args = [
-        ('l', '-l', ['g', 'd', 'l', 'rm', 'rr'], None),
-        ('n', '--namespace', ['g', 't', 'd', 'e', 'x', 'l', 'rm'], ['ns', 'no', 'all'])
+        ('l', '-l', ['g', 'd', 'a', 'lo', 'rm', 'rr', 'run'], ['t', 'e', 'x', 'co']),
+        ('n', '--namespace', ['g', 't', 'd', 'a', 'e', 'x', 'lo', 'rm', 'rr', 'run'], ['ns', 'no', 'all'])
     ]
 
     # [(part, optional, take_exactly_one)]
